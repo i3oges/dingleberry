@@ -5,10 +5,10 @@ The best bot for getting some dank memes
 
 	npm i -s ffmpeg-binaries
 
-create a file 'auth.js' in the root directory and fill in this code
+create a file 'auth.json' in the root directory and fill in this code
 
 ```javascript
-	module.exports = {
+	{
 		'discord': 'DISCORD\_API\_TOKEN',
 		'imgur': 'IMGUR\_API\_TOKEN'
 	}
