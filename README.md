@@ -23,6 +23,10 @@ And you're good to go!
 
 # Commands
 
-/meme [subreddit] - Gets a random image from imgur's viral posts, or one of the top images from any subreddit you type after /meme
+/meme [subreddit] - Gets a random image from imgur's viral posts, or one of the top images from any subreddit on imgur
+
+/more - Repeats the last "/meme" command
 
 /playme [url] - Plays a youtube video url in your currently joined voice channel
+
+/stop - Stops playing music in said voice channel

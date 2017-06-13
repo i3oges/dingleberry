@@ -1,6 +1,8 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
 const token = require('~/auth').discord
+let joinedVoiceChannel = ''
+let lastMeme = ''
 
 const playme = require('~/commands/playme')
 const meme = require('~/commands/meme')
@@ -29,11 +31,17 @@ client.on('message', async function (message) {
     command = message.content.split(' ')[0].replace('/', '')
     switch (command) {
       case 'meme':
+        lastMeme = message
         meme(message)
         break
       case 'playme':
-        playme(message)
+        joinedVoiceChannel = await playme(message)
         break
+      case 'stop':
+        joinedVoiceChannel.leave()
+        break
+      case 'more':
+        meme(lastMeme)
     }
   }
 })
