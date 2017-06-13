@@ -1,9 +1,11 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
-const token = require('./auth.js').discord
-const getDankMeme = require('./lib/getDankMeme')
+const token = require('~/auth').discord
 
-client.on('ready', () => {
+const playme = require('~/commands/playme')
+const meme = require('~/commands/meme')
+
+client.on('ready', async () => {
   console.log('I am ready')
 })
 
@@ -22,24 +24,16 @@ client.on('guildMemberAdd', member => {
 })
 
 client.on('message', async function (message) {
-  // message starts with /meme
-  if (/^\/meme/.test(message.content)) {
-    let subreddit = ''
-    // message starts with /meme AND some text separated by a space
-    if (/^\/meme\s\w+/.test(message.content)) {
-      subreddit = message.content.replace('/meme ', '')
-    }
-    let meme = ''
-    try {
-      meme = await getDankMeme(subreddit)
-    } catch (e) {
-      console.log(e)
-    }
-    if (!meme.error) {
-      message.channel.send(meme.title)
-      message.channel.send(meme.image)
-    } else {
-      message.channel.send(meme.error)
+  // messages starting with '/' are commands
+  if (message.content[0] === '/') {
+    command = message.content.split(' ')[0].replace('/', '')
+    switch (command) {
+      case 'meme':
+        meme(message)
+        break
+      case 'playme':
+        playme(message)
+        break
     }
   }
 })
