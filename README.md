@@ -9,8 +9,8 @@ create a file 'auth.json' in the root directory and fill in this code
 
 ```javascript
 	{
-		'discord': 'DISCORD\_API\_TOKEN',
-		'imgur': 'IMGUR\_API\_TOKEN'
+		'discord': 'DISCORD_API_TOKEN',
+		'imgur': 'IMGUR_API_TOKEN'
 	}
 ```
 
