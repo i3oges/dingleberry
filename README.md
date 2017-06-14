@@ -1,22 +1,32 @@
 # dingleberry
+
 The best bot for getting some dank memes
+
+# Prerequisite
+
+ffmpeg
+	
+	npm i -s ffmpeg-binaries
+
+[Discord API Access](https://discordapp.com/developers/docs/intro)
+[imgur API Access](https://apidocs.imgur.com/)
 
 # Installation
 
-	npm i -s ffmpeg-binaries
-
-create a file 'auth.json' in the root directory and fill in this code
+create a file 'auth.json' in the root directory and fill in with this code
 
 ```javascript
 	{
 		'discord': 'DISCORD_API_TOKEN',
-		'imgur': 'IMGUR_API_TOKEN'
+		'imgur': 'IMGUR_CLIENT_ID'
 	}
 ```
 
-Then just authorize your discord bot on your server and run the bot!
+Then just authorize your discord bot on your server if you haven't already
 
-	node app.js
+Run the bot!
+
+	npm start
 
 And you're good to go!
 
