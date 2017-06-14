@@ -8,7 +8,10 @@ ffmpeg
 	
 	npm i -s ffmpeg-binaries
 
+[^Node.js 8.1.0](https://nodejs.org/)
+
 [Discord API Access](https://discordapp.com/developers/docs/intro)
+
 [imgur API Access](https://apidocs.imgur.com/)
 
 # Installation
