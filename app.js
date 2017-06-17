@@ -1,14 +1,19 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
 const token = require('~/auth').discord
-let joinedVoiceChannel = ''
-let lastMeme = ''
+const winston = require('winston')
 
 const playme = require('~/commands/playme')
 const meme = require('~/commands/meme')
+const ping = require('~/commands/ping')
+
+let joinedVoiceChannel = ''
+let lastMeme = ''
+
+winston.add(winston.transports.File, { filename: './debug.log' })
 
 client.on('ready', async () => {
-  console.log('I am ready')
+  winston.info('Ready to serve')
 })
 
 // Create an event listener for new guild members
@@ -22,6 +27,7 @@ client.on('guildMemberAdd', member => {
   // Do nothing if the channel wasn't found on this server
   if (!channel) return
   // Send the message, mentioning the member
+  winston.info(`Welcoming ${member}`)
   channel.send(`Welcome to the server, ${member}`)
 })
 
@@ -42,6 +48,10 @@ client.on('message', async function (message) {
         break
       case 'more':
         meme(lastMeme)
+        break
+      case 'ping':
+        message.channel.send(`${message.author} pong! I've been alive for ${ping()}`)
+        break
     }
   }
 })

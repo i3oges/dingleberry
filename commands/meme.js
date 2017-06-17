@@ -1,5 +1,6 @@
 const request = require('request-promise-native')
 const clientId = require('~/auth').imgur
+const winston = require('winston')
 
 let getDankMeme = async function (subreddit) {
   let getImgur = {
@@ -27,7 +28,7 @@ let getDankMeme = async function (subreddit) {
     // pick a random entry in the dataset
     let content = list.data[Math.floor(Math.random() * list.data.length)]
 
-    console.log(`${date} - Retreived content: ${JSON.stringify(content)}\n`)
+    winston.info(`Retreived content: ${JSON.stringify(content)}\n`)
 
     // build meme data
     meme.nsfw = content.nsfw
@@ -50,7 +51,7 @@ let announce = async function (message) {
   try {
     meme = await getDankMeme(subreddit)
   } catch (e) {
-    console.log(e)
+    winston.error(e)
   }
   if (!meme.error) {
     if (!meme.nsfw || ~message.channel.name.indexOf('nsfw')) {

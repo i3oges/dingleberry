@@ -1,12 +1,12 @@
 # dingleberry
 
-The best bot for getting some dank memes
+The best bot for getting some dank memes, and playing some music
 
 # Prerequisite
 
 ffmpeg
 	
-	npm i -s ffmpeg-binaries
+	npm i -g ffmpeg-binaries
 
 [^Node.js 8.1.0](https://nodejs.org/)
 
@@ -43,3 +43,5 @@ And you're good to go!
 /playme [url] - Plays a youtube video url in your currently joined voice channel
 
 /stop - Stops playing music in said voice channel
+
+/ping - ping the bot
