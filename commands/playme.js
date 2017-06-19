@@ -8,7 +8,7 @@ module.exports = async function (message) {
 
     const streamOptions = { seek: 0, volume: 1 }
     const stream = ytdl(url, { filter: 'audioonly' })
-    winston.info(`Streaming ${url} to ${message.member.voiceChannel}`)
+    winston.info(`Streaming ${url} to ${message.member.voiceChannel.name}, requested by ${message.member}`)
     const dispatcher = voiceConnection.playStream(stream, streamOptions)
 
     return message.member.voiceChannel // so the bot can leave later if needed

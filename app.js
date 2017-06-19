@@ -1,11 +1,9 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
-const token = require('~/auth').discord
+const token = require('./auth').discord
 const winston = require('winston')
-
-const playme = require('~/commands/playme')
-const meme = require('~/commands/meme')
-const ping = require('~/commands/ping')
+const { URL } = require('url')
+const commands = require('./commands/')
 
 let joinedVoiceChannel = ''
 let lastMeme = ''
@@ -38,19 +36,27 @@ client.on('message', async function (message) {
     switch (command) {
       case 'meme':
         lastMeme = message
-        meme(message)
+        commands.meme(message)
         break
       case 'playme':
-        joinedVoiceChannel = await playme(message)
+        let url = new URL(message.content.split(' ')[1])
+        if (/youtu\.?be/.test(url.host)) {
+          joinedVoiceChannel = await commands.playme(message)
+        } else {
+          winston.info(`${message} wasn't supported`)
+          message.channel.send(`${message.author} sorry! I only support youtube links for now.`)
+        }
         break
       case 'stop':
-        joinedVoiceChannel.leave()
+        if (joinedVoiceChannel) {
+          joinedVoiceChannel.leave()
+        }
         break
       case 'more':
-        meme(lastMeme)
+        commands.meme(lastMeme)
         break
       case 'ping':
-        message.channel.send(`${message.author} pong! I've been alive for ${ping()}`)
+        message.channel.send(`${message.author} pong! I've been alive for ${commands.ping()}`)
         break
     }
   }
