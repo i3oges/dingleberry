@@ -45,3 +45,5 @@ And you're good to go!
 /stop - Stops playing music in said voice channel
 
 /ping - ping the bot
+
+/roll [n] - roll out of a specific number, defaults to 6

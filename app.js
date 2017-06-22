@@ -32,19 +32,23 @@ client.on('guildMemberAdd', member => {
 client.on('message', async function (message) {
   // messages starting with '/' are commands
   if (message.content[0] === '/') {
-    command = message.content.split(' ')[0].replace('/', '')
-    switch (command) {
+    command = message.content.split(' ')
+    switch (command[0].replace('/', '')) {
       case 'meme':
         lastMeme = message
         commands.meme(message)
         break
       case 'playme':
-        let url = new URL(message.content.split(' ')[1])
-        if (/youtu\.?be/.test(url.host)) {
-          joinedVoiceChannel = await commands.playme(message)
+        if (command[1]) {
+          let url = new URL(command[1])
+          if (/youtu\.?be/.test(url.host)) {
+            joinedVoiceChannel = await commands.playme(message)
+          } else {
+            winston.info(`${message} wasn't supported`)
+            message.channel.send(`${message.author} sorry! I only support youtube links for now.`)
+          }
         } else {
-          winston.info(`${message} wasn't supported`)
-          message.channel.send(`${message.author} sorry! I only support youtube links for now.`)
+          message.channel.send(`${message.author} please supply a youtube url for me to play`)
         }
         break
       case 'stop':
@@ -58,6 +62,10 @@ client.on('message', async function (message) {
       case 'ping':
         message.channel.send(`${message.author} pong! I've been alive for ${commands.ping()}`)
         break
+      case 'roll':
+        let roll = command[1] || 6
+        winston.info(`${message.author} requested a roll out of ${roll}`)
+        message.channel.send(`\`rolled ${Math.floor(Math.random() * roll)} out of ${roll}\``)
     }
   }
 })
