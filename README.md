@@ -1,6 +1,6 @@
 # dingleberry
 
-The best bot for getting some dank memes, and playing some music
+A discord bot for everyone! Completely open-source means you run it for yourself!
 
 # Prerequisite
 
@@ -46,4 +46,12 @@ And you're good to go!
 
 /ping - ping the bot
 
-/roll [n] - roll out of a specific number, defaults to 6
+/roll [#d#] - roll out of a specific number, defaults to 1 d20
+
+examples:
+
+	1d20 - single dodecahedron
+
+	5d20 - 5 dodecahedrons
+
+	3d6 - 3 hexahedrons

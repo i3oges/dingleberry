@@ -1,5 +1,6 @@
 module.exports = {
   'meme': require('./meme'),
   'ping': require('./ping'),
-  'playme': require('./playme')
+  'playme': require('./playme'),
+  'roll': require('./roll')
 }

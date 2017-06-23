@@ -63,9 +63,10 @@ client.on('message', async function (message) {
         message.channel.send(`${message.author} pong! I've been alive for ${commands.ping()}`)
         break
       case 'roll':
-        let roll = command[1] || 6
-        winston.info(`${message.author} requested a roll out of ${roll}`)
-        message.channel.send(`\`rolled ${Math.floor(Math.random() * roll)} out of ${roll}\``)
+        let roll = command[1] || '1d20'
+        winston.info(`${message.author} requested a roll (${roll})`)
+        let dRoll = commands.roll(roll)
+        message.channel.send(dRoll)
     }
   }
 })
