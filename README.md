@@ -46,12 +46,16 @@ And you're good to go!
 
 /ping - ping the bot
 
-/roll [#d#] - roll out of a specific number, defaults to 1 d20
+/roll [F] - roll, where F is the maximum number
 
-examples:
+/roll [NdF] - roll, where N is the number of rolls and F is the maximum number
 
-	1d20 - single dodecahedron
+/roll examples:
 
-	5d20 - 5 dodecahedrons
+	20 - 1 roll of 20
 
-	3d6 - 3 hexahedrons
+	5d20 - 5 rolls of 20
+
+	3d6 - 3 rolls of 6
+
+	1d20 # Defending - roll out of 20 with a comment

@@ -4,7 +4,7 @@ const token = require('./auth').discord
 const winston = require('winston')
 const { URL } = require('url')
 const commands = require('./commands/')
-
+const commandRegex = /^(?:\/)\w+/
 let joinedVoiceChannel = ''
 let lastMeme = ''
 
@@ -31,16 +31,20 @@ client.on('guildMemberAdd', member => {
 
 client.on('message', async function (message) {
   // messages starting with '/' are commands
-  if (message.content[0] === '/') {
-    command = message.content.split(' ')
-    switch (command[0].replace('/', '')) {
+  if (commandRegex.test(message.content)) {
+    command = message.content.match(commandRegex)[0]
+    args = message.content.split(commandRegex)[1].trim()
+
+    winston.info(`command: ${command}, args: ${args}`)
+
+    switch (command.replace('/', '')) {
       case 'meme':
         lastMeme = message
         commands.meme(message)
         break
       case 'playme':
-        if (command[1]) {
-          let url = new URL(command[1])
+        if (args) {
+          let url = new URL(args)
           if (/youtu\.?be/.test(url.host)) {
             joinedVoiceChannel = await commands.playme(message)
           } else {
@@ -63,10 +67,14 @@ client.on('message', async function (message) {
         message.channel.send(`${message.author} pong! I've been alive for ${commands.ping()}`)
         break
       case 'roll':
-        let roll = command[1] || '1d20'
+        let roll = args || '1d20'
+
         winston.info(`${message.author} requested a roll (${roll})`)
+
         let dRoll = commands.roll(roll)
         message.channel.send(dRoll)
+      default:
+        message.channel.send(`The command ${command} wasn't recognized`)
     }
   }
 })
