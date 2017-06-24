@@ -14,6 +14,8 @@ ffmpeg
 
 [imgur API Access](https://apidocs.imgur.com/)
 
+You will need a discord api token and an imgur api token in order for the bot to work properly, you can add them in the next step
+
 # Installation
 
 create a file 'auth.json' in the root directory and fill in with this code
