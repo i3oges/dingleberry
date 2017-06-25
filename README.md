@@ -4,7 +4,7 @@ A discord bot for everyone! Completely open-source means you run it for yourself
 
 # Prerequisite
 
-ffmpeg
+ffmpeg (for playing videos)
 	
 	npm i -g ffmpeg-binaries
 
@@ -14,20 +14,24 @@ ffmpeg
 
 [imgur API Access](https://apidocs.imgur.com/)
 
-You will need a discord api token and an imgur api token in order for the bot to work properly, you can add them in the next step
+You will need a discord and an imgur api token in order for the bot to work properly, you can add them in the next step
 
 # Installation
 
 create a file 'auth.json' in the root directory and fill in with this code
 
 ```javascript
-	{
-		'discord': 'DISCORD_API_TOKEN',
-		'imgur': 'IMGUR_CLIENT_ID'
-	}
+{
+	'discord': 'DISCORD_API_TOKEN',
+	'imgur': 'IMGUR_CLIENT_ID'
+}
 ```
 
-Then just authorize your discord bot on your server if you haven't already
+Then authorize your discord bot on your server if you haven't already
+
+Download dependencies:
+
+	npm i
 
 Run the bot!
 
@@ -61,3 +65,7 @@ And you're good to go!
 	3d6 - 3 rolls of 6
 
 	1d20 # Defending - roll out of 20 with a comment
+
+# Tests
+
+	npm t

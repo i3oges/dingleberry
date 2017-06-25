@@ -3,7 +3,7 @@ module.exports = function (roll) {
   const cMessageRegex = /(?:\#)(\s|\w)+/
   const dndRollRegex = /^\d+?d\d+/
   const regRollRegex = /^\d+$/
-  let rollString = `\`\`\`` // begin block quote
+
   let message = 'Rolled'
   let count = 1
   let faces = 20
@@ -17,23 +17,26 @@ module.exports = function (roll) {
   if (dndRollRegex.test(roll)) {  // standard x rolls of x faces, separated by d
 	  let exp = roll.split('d')
 	  winston.info(exp)
-	  rollString += `Rolling ${roll}\n`
 	  if (exp[0] && exp[1]) {
-	  	count = exp[0]
-	  	faces = exp[1]
+	  	count = +(exp[0])
+	  	faces = +(exp[1])
 	  }
   } else if (regRollRegex.test(roll)) { // is a regular roll out of x
   	count = 1
-  	faces = roll
+  	faces = +(roll)
   }
 
   for (let i = 1; i <= count; i++) { // do the rolls
-  	let ran = Math.floor(Math.random() * faces)
+  	let ran = Math.floor(Math.random() * faces) + 1
   	sum += ran
   	results.push(ran)
-  	rollString += `Die ${i}: ${ran}/${faces}\n`
   }
   winston.info(`count: ${count}, faces: ${faces}, results: ${results}, sum: ${sum}`)
-  rollString += `${message}: ${sum}\`\`\``
-  return rollString
+  return {
+  	'message': message,
+  	'count': count,
+  	'faces': faces,
+  	'results': results,
+  	'sum': sum
+  }
 }

@@ -14,17 +14,19 @@ let getDankMeme = async function (subreddit) {
 
   let meme = {}
   // get an image from a specific subreddit
-  if (subreddit !== '') {
+  if (subreddit) {
     getImgur.uri = `https://api.imgur.com/3/gallery/r/${subreddit}`
   }
   let list = ''
 
   // get an imgur dataset
-  list = await request.get(getImgur)
+  try {
+    list = await request.get(getImgur)
+  } catch (e) {
+    winston.log(`imgur request fail: ${e}`)
+  }
 
   if (list.data.length > 0) {
-    let date = new Date()
-
     // pick a random entry in the dataset
     let content = list.data[Math.floor(Math.random() * list.data.length)]
 
@@ -41,29 +43,21 @@ let getDankMeme = async function (subreddit) {
   return meme
 }
 
-let announce = async function (message) {
-  let subreddit = ''
-    // message starts with /meme AND some text separated by a space
-  if (/^\/meme\s\w+/.test(message.content)) {
-    subreddit = message.content.replace('/meme ', '')
-  }
-  let meme = ''
-  try {
-    meme = await getDankMeme(subreddit)
-  } catch (e) {
-    winston.error(e)
-  }
+let announce = async function (channel, meme) {
   if (!meme.error) {
-    if (!meme.nsfw || ~message.channel.name.indexOf('nsfw')) {
-      message.channel.send(meme.title)
-      message.channel.send(meme.image)
+    if (!meme.nsfw || ~channel.name.indexOf('nsfw')) {
+      channel.send(meme.title)
+      channel.send(meme.image)
     } else {
-      message.channel.send('Dude, gross (sfw only)')
+      channel.send('Dude, gross (sfw only)')
     }
   } else {
-    message.channel.send(meme.error)
+    channel.send(meme.error)
   }
   return meme
 }
 
-module.exports = announce
+module.exports = {
+  'get': getDankMeme,
+  'announce': announce
+}
