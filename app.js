@@ -4,10 +4,12 @@ const token = require('./auth').discord
 const winston = require('winston')
 const { URL } = require('url')
 const commands = require('./commands/')
-const commandRegex = /^(?:\/)\w+/
+const commandRegex = /^(?:\!)\w+/
+
 let joinedVoiceChannel = ''
 let lastMeme = ''
 let msg = ''
+
 winston.add(winston.transports.File, { filename: './debug.log' })
 
 client.on('ready', async () => {
@@ -37,11 +39,15 @@ client.on('message', async function (message) {
     let channel = message.channel
     winston.info(`command: ${command}, args: ${args}`)
 
-    switch (command.replace('/', '')) {
+    switch (command.replace(/^!/, '')) {
       case 'meme':
         lastMeme = args
         msg = await commands.meme.get(args)
         await commands.meme.announce(channel, msg)
+        break
+      case 'giphy':
+        msg = await commands.giphy.get(args)
+        await commands.giphy.announce(channel, msg)
         break
       case 'playme':
         if (args) {

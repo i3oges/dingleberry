@@ -79,3 +79,16 @@ describe('Meme', async function () {
     expect(meme.error).to.be.a('string')
   })
 })
+
+describe('Giphy', async function () {
+  it('Random Giphy', async function () {
+    let giphy = await commands.giphy.get()
+    expect(giphy.image).to.be.a('string')
+  })
+  it('Search Giphy', async function () {
+    let giphy = await commands.giphy.get('funny')
+    expect(giphy.image).to.be.a('string')
+    expect(giphy.title).to.be.a('string')
+    expect(giphy.rating).to.be.a('string')
+  })
+})
