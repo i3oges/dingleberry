@@ -5,10 +5,9 @@ A discord bot for everyone! Completely open-source means you run it for yourself
 # Prerequisite
 
 ffmpeg (for playing videos)
-	
-	npm i -g ffmpeg-binaries
+npm i -g ffmpeg-binaries
 
-[^Node.js 8.1.0](https://nodejs.org/)
+[^Node.js 14.4.0](https://nodejs.org/)
 
 [Discord API Access](https://discordapp.com/developers/docs/intro)
 
@@ -18,28 +17,25 @@ You will need a discord and an imgur api token in order for the bot to work prop
 
 # Installation
 
-create a file 'auth.json' in the root directory and fill in with this code
+create a file 'auth.ts' in the root directory and fill in with this code
 
 ```javascript
-{
-	'discord': 'DISCORD_API_TOKEN',
-	'imgur': 'IMGUR_CLIENT_ID'
-	'giphyKey': 'GIPHY_API_KEY'
-}
+export const discord = 'DISCORD_API_TOKEN';
+export const imgur = 'IMGUR_CLIENT_ID';
+export const giphyKey = 'GIPHY_API_KEY';
 ```
 
 Then authorize your discord bot on your server if you haven't already
 
 Download dependencies:
 
-	npm i
+    npm i
 
 Run the bot!
 
-	npm start
+    npm start
 
 And you're good to go!
-
 
 # Commands
 
@@ -61,14 +57,14 @@ And you're good to go!
 
 !roll examples:
 
-	20 - 1 roll of 20
+    20 - 1 roll of 20
 
-	5d20 - 5 rolls of 20
+    5d20 - 5 rolls of 20
 
-	3d6 - 3 rolls of 6
+    3d6 - 3 rolls of 6
 
-	1d20 # Defending - roll out of 20 with a comment
+    1d20 # Defending - roll out of 20 with a comment
 
 # Tests
 
-	npm t
+    npm t
