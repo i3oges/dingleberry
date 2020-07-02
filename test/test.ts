@@ -1,4 +1,4 @@
-import roll from '../commands/roll';
+import roll from '../src/commands/roll';
 describe('Dice Roll', function () {
   it('Normal dice roll (No params)', function () {
     let r = roll();

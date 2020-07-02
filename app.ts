@@ -1,37 +1,23 @@
 import { Client, TextChannel, VoiceChannel } from 'discord.js';
 import { URL } from 'url';
 import { discord as token } from './auth';
-import { giphyAnnounce, giphyGet } from './commands/giphy';
-import { memeGet, memeAnnounce } from './commands/meme';
-import ping from './commands/ping';
-import playme from './commands/playme';
-import roll from './commands/roll';
+import { announceError, announceMedia, Media } from './src/commands/announce';
+import { giphyGet } from './src/commands/giphy';
+import { memeGet } from './src/commands/meme';
+import ping from './src/commands/ping';
+import playme from './src/commands/playme';
+import roll from './src/commands/roll';
 
 const client = new Client();
 const commandRegex = /^(?:\!)\w+/;
 
 let joinedVoiceChannel: VoiceChannel;
 let lastMeme: string;
-let msg;
+let msg: Media | string;
 
 client.on('ready', async () => {
   console.log('Ready to serve');
 });
-
-// // Create an event listener for new guild members
-// client.on('guildMemberAdd', (member) => {
-//   // Send the message to the guilds default channel (usually #general), mentioning the member
-//   member.guild.defaultChannel.send(`Welcome to the server, ${member}!`);
-
-//   // If you want to send the message to a designated channel on a server instead
-//   // you can do the following:
-//   const channel = member.guild.channels.find('name', 'member-log');
-//   // Do nothing if the channel wasn't found on this server
-//   if (!channel) return;
-//   // Send the message, mentioning the member
-//   console.log(`Welcoming ${member}`);
-//   channel.send(`Welcome to the server, ${member}`);
-// });
 
 client.on('message', async function (message) {
   // messages starting with '!' are commands
@@ -39,20 +25,27 @@ client.on('message', async function (message) {
 
   if (commandRegex.test(message.content) && match) {
     let command = match[0];
-    console.log(message.content);
+
     let args = message.content.split(commandRegex)[1].trim(); // everything after the command
     let channel = message.channel;
-    console.log(`command: ${command}, args: ${args}`);
 
     switch (command.replace(/^!/, '')) {
       case 'meme':
         lastMeme = args;
         msg = await memeGet(args);
-        await memeAnnounce(channel as TextChannel, msg);
+        if (typeof msg === 'string') {
+          await announceError(channel, msg);
+        } else {
+          await announceMedia(channel, msg);
+        }
         break;
       case 'giphy':
         msg = await giphyGet(args);
-        await giphyAnnounce(channel as TextChannel, msg);
+        if (typeof msg === 'string') {
+          await announceError(channel, msg);
+        } else {
+          await announceMedia(channel, msg);
+        }
         break;
       case 'playme':
         if (args) {
@@ -64,7 +57,7 @@ client.on('message', async function (message) {
             }
           } else {
             console.log(`${message} wasn't supported`);
-            channel.send(`${message.author} sorry! I only support youtube links for now.`);
+            channel.send(`${message.author} sorry! I couldnt play that link!`);
           }
         } else {
           channel.send(`${message.author} please supply a youtube url for me to play`);
@@ -77,7 +70,11 @@ client.on('message', async function (message) {
         break;
       case 'more':
         msg = await memeGet(lastMeme);
-        await memeAnnounce(channel as TextChannel, msg);
+        if (typeof msg === 'string') {
+          await announceError(channel, msg);
+        } else {
+          await announceMedia(channel, msg);
+        }
         break;
       case 'ping':
         channel.send(`${message.author} pong! I've been alive for ${ping()}`);
@@ -88,7 +85,6 @@ client.on('message', async function (message) {
         console.log(`${message.author} requested a roll (${rollArgs})`);
 
         let finishedRoll = roll(rollArgs); // do the roll(s)
-        console.log(finishedRoll);
         for (let i = 0; i < finishedRoll.results.length; i++) {
           output += `\nDie ${i}: ${finishedRoll.results[i]}/${finishedRoll.faces}`; // Each roll
         }
