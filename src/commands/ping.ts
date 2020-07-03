@@ -1,7 +1,6 @@
 export default function () {
   let time = process.uptime();
   let uptime = tohhmmss(time);
-  console.log(`pinged`);
 
   return uptime;
 }

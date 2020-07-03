@@ -1,6 +1,7 @@
 import { Message, VoiceChannel } from 'discord.js';
 import { TCNChannel } from '../models/types';
 import playme from '../commands/playme';
+import { log } from '../logger';
 export class Voice {
   joinedVoiceChannel?: VoiceChannel;
 
@@ -13,7 +14,7 @@ export class Voice {
           this.joinedVoiceChannel = jvc;
         }
       } else {
-        console.log(`${message} wasn't supported`);
+        log.info(`${message} wasn't supported`);
         channel.send(`${message.author} sorry! I couldnt play that link!`);
       }
     } else {

@@ -5,7 +5,7 @@ import { Help } from './controllers/Help';
 import { Meme } from './controllers/Meme';
 import { Roll } from './controllers/Roll';
 import { Voice } from './controllers/Voice';
-
+import { log } from './logger';
 const client = new Client();
 const mc = new Meme();
 const vc = new Voice();
@@ -16,7 +16,7 @@ const bareCommands = ['giphy', 'playme', 'meme', 'ping', 'roll', 'more', 'help',
 const availableCommands = bareCommands.map(c => process.env.PREFIX + c);
 
 client.on('ready', async () => {
-  console.log('Ready to serve');
+  log.info('Ready to serve');
 });
 
 client.on('message', async function (message) {
@@ -28,6 +28,8 @@ client.on('message', async function (message) {
     let args = rest.join(' ');
     args = args.trim();
     let { channel } = message;
+
+    log.info(`command: ${command}, args: ${args}`);
 
     switch (command.replace(prefix, '')) {
       case 'meme':
