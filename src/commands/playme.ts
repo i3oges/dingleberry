@@ -1,12 +1,9 @@
 import ytdl from 'ytdl-core';
 import { Message } from 'discord.js';
 
-export default async function (message: Message) {
-  console.log(message.member);
+export default async function (message: Message, url: string) {
   //  && message.channel.name === 'music-request' ???
   if (message.member && message.member.voice) {
-    const url = message.content.split(' ')[1];
-
     try {
       if (message.member.voice.channel) {
         const vc = await message.member.voice.channel.join();

@@ -1,6 +1,4 @@
 import fetch from 'node-fetch';
-import { imgur as clientId } from '../../auth';
-import { TextChannel } from 'discord.js';
 import { ImgurPost } from '../models/Imgur';
 import { Media } from './announce';
 interface Meme {
@@ -21,7 +19,7 @@ export const memeGet = async function (subreddit?: string): Promise<Media | stri
 
   // get an imgur dataset
   try {
-    list = await (await fetch(url, { headers: { Authorization: `Client-ID ${clientId}` } })).json();
+    list = await (await fetch(url, { headers: { Authorization: `Client-ID ${process.env.IMGUR_KEY}` } })).json();
   } catch (e) {
     console.log(`imgur request fail: ${e}`);
   }

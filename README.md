@@ -4,26 +4,29 @@ A discord bot for everyone! Completely open-source means you run it for yourself
 
 # Prerequisite
 
-ffmpeg (for playing videos)
-npm i -g ffmpeg-binaries
-
-[^Node.js 14.4.0](https://nodejs.org/)
-
 [Discord API Access](https://discordapp.com/developers/docs/intro)
 
 [imgur API Access](https://apidocs.imgur.com/)
+
+## Run with Docker
+
+[Docker](https://www.docker.com/)
+
+## Run with Nodejs
+
+install ffmpeg (for playing videos)
+npm i -g ffmpeg-binaries
+
+[^Node.js 14.4.0](https://nodejs.org/)
 
 You will need a discord and an imgur api token in order for the bot to work properly, you can add them in the next step
 
 # Installation
 
-create a file 'auth.ts' in the root directory and fill in with this code
+Dingleberg requires some environment variable to be set, you can find them in the `.env.example` file.
 
-```javascript
-export const discord = 'DISCORD_API_TOKEN';
-export const imgur = 'IMGUR_CLIENT_ID';
-export const giphyKey = 'GIPHY_API_KEY';
-```
+- if running with node, copy them into a new file called .env and fill in their values.
+- if running with docker, make them available to your docker environment
 
 Then authorize your discord bot on your server if you haven't already
 
@@ -37,7 +40,7 @@ Run the bot!
 
 And you're good to go!
 
-# Commands
+# Commands (given prefix is '!')
 
 !meme [subreddit] - Gets a random image from imgur's viral posts, or one of the top images from any subreddit on imgur
 

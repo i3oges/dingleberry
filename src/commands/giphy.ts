@@ -1,6 +1,4 @@
 import fetch from 'node-fetch';
-import { giphyKey } from '../../auth';
-import { TextChannel, DMChannel, NewsChannel } from 'discord.js';
 import { GiphyGIF } from '../models/Giphy';
 import { Media } from './announce';
 interface Giphy {
@@ -11,7 +9,7 @@ interface Giphy {
 }
 
 const getGiphySet = async (search: string): Promise<Media | string> => {
-  const url = `https://api.giphy.com/v1/gifs/search?api_key=${giphyKey}&q=${search}&limit=1&offset=0&lang=en`;
+  const url = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_KEY}&q=${search}&limit=1&offset=0&lang=en`;
   try {
     const req = await fetch(url);
     const list = (await req.json()).data;
@@ -31,7 +29,7 @@ const getGiphySet = async (search: string): Promise<Media | string> => {
 };
 
 const getRandomGIF = async (): Promise<Media | string> => {
-  const url = `https://api.giphy.com/v1/gifs/random?api_key=${giphyKey}`;
+  const url = `https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_KEY}`;
   try {
     const req = await fetch(url);
     const list = (await req.json()).data as GiphyGIF;
