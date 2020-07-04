@@ -1,4 +1,6 @@
-FROM node:latest
+FROM node:alpine
+
+RUN apk add ffmpeg
 
 COPY package*.json tsconfig.json ./
 
