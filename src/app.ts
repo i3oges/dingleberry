@@ -6,13 +6,14 @@ import { Meme } from './controllers/Meme';
 import { Roll } from './controllers/Roll';
 import { Voice } from './controllers/Voice';
 import { log } from './logger';
+import hashtag from './commands/hashtag';
 const client = new Client();
 const mc = new Meme();
 const vc = new Voice();
 const hc = new Help();
 const gc = new Giphy();
 const rc = new Roll();
-const bareCommands = ['giphy', 'playme', 'meme', 'ping', 'roll', 'more', 'help', 'stop'];
+const bareCommands = ['giphy', 'playme', 'meme', 'ping', 'roll', 'more', 'help', 'stop', 'motw'];
 const availableCommands = bareCommands.map(c => process.env.PREFIX + c);
 
 client.on('ready', async () => {
@@ -21,6 +22,11 @@ client.on('ready', async () => {
 
 client.on('message', async function (message) {
   const matched = availableCommands.some(c => message.content.startsWith(c));
+
+  if (message.content.startsWith('#') && !message.content.includes(' ')) {
+    log.info(`hashtag: ${message.content}`);
+    hashtag(message);
+  }
 
   if (matched && process.env.PREFIX) {
     const prefix = process.env.PREFIX;
@@ -48,7 +54,7 @@ client.on('message', async function (message) {
         mc.repeatMeme(channel);
         break;
       case 'ping':
-        channel.send(`${message.author} pong! I've been alive for ${ping()}`);
+        channel.send(`${message.author} pong! I was born ${ping()} ago`);
         break;
       case 'roll':
         rc.doRoll(channel, args);
@@ -56,8 +62,11 @@ client.on('message', async function (message) {
       case 'help':
         hc.printHelp(channel);
         break;
+      case 'motw':
+        mc.getMOTW(message);
+        break;
       default:
-        channel.send(`The command ${command} wasn't recognized, try \`&help\``);
+        channel.send(`The command ${command} wasn't recognized, try \`${prefix}help\``);
     }
   }
 });

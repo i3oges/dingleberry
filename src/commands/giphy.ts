@@ -1,12 +1,6 @@
 import fetch from 'node-fetch';
 import { GiphyGIF } from '../models/Giphy';
 import { Media } from './announce';
-interface Giphy {
-  title: string;
-  image: string;
-  rating: string;
-  error: string;
-}
 
 const getGiphySet = async (search: string): Promise<Media | string> => {
   const url = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_KEY}&q=${search}&limit=1&offset=0&lang=en`;

@@ -15,7 +15,3 @@ export const announceMedia = async (channel: TextChannel | DMChannel | NewsChann
   if (media.message.trim() !== '') channel.send(media.message);
   if (media.link.trim() !== '') channel.send(media.link);
 };
-
-export const announceError = async (channel: TextChannel | DMChannel | NewsChannel, error: string) => {
-  channel.send(error);
-};
