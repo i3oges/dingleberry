@@ -5,17 +5,11 @@ steps:
   # push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/dingleberry/dingleberry']
-  # Deploy container image to cloud Run
-  # - name: "gcr.io/cloud-builders/gcloud"
-  #   args:
-  #     - "run"
-  #     - "deploy"
-  #     - "gitlab-display"
-  #     - "--image"
-  #     - "gcr.io/dingleberry/dingleberry"
-  #     - "--region"
-  #     - "us-central1"
-  #     - "--platform"
-  #     - "managed"
+    # build the container image
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   args: ['build', '-t', 'gcr.io/dingleberry/dingleberry:arm', '-f', './build/arm/Dockerfile', '.']
+  # push the container image to Container Registry
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   args: ['push', 'gcr.io/dingleberry/dingleberry:arm']
 images:
   - 'gcr.io/dingleberry/dingleberry'

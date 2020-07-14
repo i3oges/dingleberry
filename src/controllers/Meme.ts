@@ -1,11 +1,12 @@
+import { Message } from 'discord.js';
 import { announceMedia } from '../commands/announce';
 import { memeGet } from '../commands/meme';
-import { TCNChannel } from '../models/types';
 import motw from '../commands/motw';
-import { Client, Message } from 'discord.js';
+import { TCNChannel } from '../models/types';
 
 export class Meme {
   lastSearch?: string;
+  getMOTW = (message: Message) => motw(message);
 
   async getMeme(channel: TCNChannel, search?: string) {
     const msg = await memeGet(search);
@@ -24,11 +25,5 @@ export class Meme {
     } else {
       await announceMedia(channel, msg);
     }
-  }
-
-  async getMOTW(message: Message) {
-    motw(message);
-
-    // channel.send(weekStart);
   }
 }

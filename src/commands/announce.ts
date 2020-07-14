@@ -1,4 +1,4 @@
-import { TextChannel, DMChannel, NewsChannel } from 'discord.js';
+import { DMChannel, NewsChannel, TextChannel } from 'discord.js';
 
 export interface Media {
   link: string;

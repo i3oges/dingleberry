@@ -1,4 +1,5 @@
 import { Client } from 'discord.js';
+import hashtag from './commands/hashtag';
 import ping from './commands/ping';
 import { Giphy } from './controllers/Giphy';
 import { Help } from './controllers/Help';
@@ -6,7 +7,6 @@ import { Meme } from './controllers/Meme';
 import { Roll } from './controllers/Roll';
 import { Voice } from './controllers/Voice';
 import { log } from './logger';
-import hashtag from './commands/hashtag';
 const client = new Client();
 const mc = new Meme();
 const vc = new Voice();
@@ -33,7 +33,7 @@ client.on('message', async function (message) {
     let [command, ...rest] = message.content.split(' ');
     let args = rest.join(' ');
     args = args.trim();
-    let { channel } = message;
+    const { channel } = message;
 
     log.info(`command: ${command}, args: ${args}`);
 
