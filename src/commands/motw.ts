@@ -1,6 +1,8 @@
-import { Collection, GuildChannel, Message, MessageAttachment, TextChannel } from 'discord.js';
+import { Collection, GuildChannel, Message, MessageAttachment, TextChannel, User } from 'discord.js';
 import moment, { Moment } from 'moment';
 import pptxgen from 'pptxgenjs';
+
+type MemeData = { attachments: Collection<string, MessageAttachment>; author: User };
 
 export default async function (message: Message) {
   const [begin, end] = getDateRange();
@@ -13,11 +15,13 @@ export default async function (message: Message) {
   const title = `Meme of the Week ${begin.month() + 1}-${begin.date()} ${end.month() + 1}-${end.date()}`;
   const memeChannel = message.member?.guild.channels.cache.find(el => el.name === 'memes');
   if (memeChannel) {
-    const attachments = await getMemeAttachments(memeChannel, begin, end);
-    if (attachments && attachments.length > 0) {
-      const pptx = generatePDF(attachments);
+    const memes = await getMemeAttachments(memeChannel, begin, end);
+    if (memes && memes.length > 0) {
+      const pptx = generatePDF(memes);
       pptx.title = title;
-
+      pptx.company = 'Banana';
+      pptx.subject = 'Meme of the Week';
+      pptx.author = 'Dingleberry the Discord Bot';
       const attachment = new MessageAttachment((await pptx.stream()) as Buffer, `${title}.pptx`);
       message.channel.stopTyping();
       await status.delete();
@@ -31,10 +35,12 @@ export default async function (message: Message) {
   }
 }
 
-const generatePDF = (attachments: Collection<string, MessageAttachment>[]) => {
+const generatePDF = (memes: MemeData[]) => {
   const pres = new pptxgen();
-  attachments.forEach(a => {
-    const first = a.first();
+  memes.forEach(a => {
+    const first = a.attachments.first();
+    const { username } = a.author;
+
     if (!first) return;
 
     const path = first.attachment;
@@ -43,7 +49,10 @@ const generatePDF = (attachments: Collection<string, MessageAttachment>[]) => {
     const h = first.height || 2 / ppi;
     const w = first.width || 2 / ppi;
 
-    pres.addSlide().addImage({ path, x: 0.4, h, w, sizing: { type: 'contain', h: 6, w: 7 } });
+    pres
+      .addSlide()
+      .addImage({ path, x: 0.4, h, w, sizing: { type: 'contain', h: 6, w: 7 } })
+      .addNotes(username);
   });
   return pres;
 };
@@ -64,9 +73,9 @@ const getDateRange = () => {
 const getMemeAttachments = async (channel: GuildChannel, begin: Moment, end: Moment) => {
   if (channel instanceof TextChannel) {
     const messages = await channel.messages.fetch({ limit: 50 });
-    return messages.reduce((acc: Collection<string, MessageAttachment>[], { createdAt, attachments }) => {
+    return messages.reduce((acc: MemeData[], { createdAt, attachments, author }) => {
       if (moment(createdAt).isBetween(begin, end) && attachments.size > 0) {
-        acc.push(attachments);
+        acc.push({ attachments, author });
       }
       return acc;
     }, []);
