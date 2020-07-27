@@ -13,7 +13,7 @@ const vc = new Voice();
 const hc = new Help();
 const gc = new Giphy();
 const rc = new Roll();
-const bareCommands = ['giphy', 'playme', 'meme', 'ping', 'roll', 'more', 'help', 'stop', 'motw'];
+const bareCommands = ['giphy', 'playme', 'meme', 'ping', 'roll', 'more', 'help', 'stop', 'motw', 'roleassign'];
 const availableCommands = bareCommands.map(c => process.env.PREFIX + c);
 
 client.on('ready', async () => {
@@ -64,6 +64,9 @@ client.on('message', async function (message) {
         break;
       case 'motw':
         mc.getMOTW(message);
+        break;
+      case 'roleassign':
+        hc.roleAssign(message, args);
         break;
       default:
         channel.send(`The command ${command} wasn't recognized, try \`${prefix}help\``);
