@@ -12,7 +12,10 @@ export class Roll {
       output += `\nDie ${i}: ${finishedRoll.results[i]}/${finishedRoll.faces}`; // Each roll
     }
     output += `\n${finishedRoll.message}: ${finishedRoll.sum} \`\`\``; // "Rolled" or a custom message + sum + end blockquote
-
-    channel.send(output);
+    if (output.length >= 2000) {
+      channel.send(`I can't print ${output.length} characters in a single message! The sum was ${finishedRoll.sum}`);
+    } else {
+      channel.send(output);
+    }
   }
 }

@@ -58,6 +58,8 @@ And you're good to go!
 
 !roll [NdF] - roll, where N is the number of rolls and F is the maximum number
 
+!roleassign @member "the role" - assigns @member with "the role", use the @ tagging as the member (the text should be blue)
+
 !roll examples:
 
     20 - 1 roll of 20
